@@ -62,24 +62,6 @@ export const SubmitButton = styled.button.attrs(props => ({
     `}
 `;
 
-export const Header = styled.div`
-  background: #7159c1;
-  color: #fff;
-  padding: 15px;
-  border-top-left-radius: 4px;
-  border-top-right-radius: 4px;
-
-  h1 {
-    font-size: 20px;
-    display: flex;
-    flex-direction: row;
-
-    svg {
-      margin-right: 10px;
-    }
-  }
-`;
-
 export const List = styled.ul`
   list-style: none;
   margin-top: 30px;

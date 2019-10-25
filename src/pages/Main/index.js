@@ -4,7 +4,10 @@ import { Link } from 'react-router-dom';
 
 import api from '../../services/api';
 
-import { Card, Form, SubmitButton, Header, Container, List } from './styles';
+import { Form, SubmitButton, List } from './styles';
+import Card from '../../components/Card';
+import CardHeader from '../../components/CardHeader';
+import Container from '../../components/Container';
 
 export default function Main() {
   const [newRepo, setNewRepo] = useState('');
@@ -46,9 +49,9 @@ export default function Main() {
 
   return (
     <Card>
-      <Header>
+      <CardHeader>
         <h1>Repositories</h1>
-      </Header>
+      </CardHeader>
 
       <Container>
         <Form onSubmit={event => handleSubmit(event)}>
