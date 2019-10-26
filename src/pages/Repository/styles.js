@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { keyframes, css } from 'styled-components';
 
 export const LoadingIndicator = styled.div`
   color: #7159c1;
@@ -55,6 +55,11 @@ export const IssueList = styled.ul`
     border: 1px solid #eee;
     border-radius: 4px;
 
+    &:last-child {
+      border: none;
+      justify-content: center;
+    }
+
     & + li {
       margin-top: 10px;
     }
@@ -101,4 +106,68 @@ export const IssueList = styled.ul`
       }
     }
   }
+`;
+
+export const Filters = styled.div`
+  margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+
+  span {
+    font-size: 12px;
+    color: #999;
+    margin-bottom: 10px;
+  }
+
+  div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    select {
+      flex: 1;
+      background: transparent;
+      border: 1px solid #eee;
+      padding: 10px 15px;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+  }
+`;
+
+const rotate = keyframes`
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+`;
+
+export const LoadMoreButton = styled.button.attrs(props => ({
+  type: 'button',
+  disabled: props.loading,
+}))`
+  background: #7159c1;
+  color: #fff;
+  border: 0;
+  padding: 10px 15px;
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &[disabled] {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+
+  ${props =>
+    props.loading &&
+    css`
+      svg {
+        animation: ${rotate} 2s linear infinite;
+      }
+    `}
 `;

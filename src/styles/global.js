@@ -17,7 +17,7 @@ export default createGlobalStyle`
     -webkit-font-smoothing: antialiased !important;
   }
 
-  body, unput, button {
+  body, input, select, button {
     color: #222;
     font-size: 14px;
     font-family: Arial, Helvetica, sans-serif;
@@ -25,5 +25,9 @@ export default createGlobalStyle`
 
   button {
     cursor: pointer;
+  }
+
+  .Toastify__toast {
+    border-radius: 4px;
   }
 `;

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { FaPlus, FaSpinner } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import { FaPlus, FaSpinner } from 'react-icons/fa';
+import { toast } from 'react-toastify';
 
 import api from '../../services/api';
 
@@ -13,6 +14,7 @@ export default function Main() {
   const [newRepo, setNewRepo] = useState('');
   const [repositories, setRepositories] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     const repositoriesFromLocalStorage = localStorage.getItem('repositories');
@@ -31,16 +33,31 @@ export default function Main() {
 
     setLoading(true);
 
-    const response = await api
-      .get(`/repos/${newRepo}`)
-      .catch(() => setLoading(false));
+    try {
+      const repositoryAlreadyExists = repositories.find(
+        repository => repository.name.toLowerCase() === newRepo.toLowerCase()
+      );
 
-    if (response && response.data) {
-      const data = {
-        name: response.data.full_name,
-      };
+      if (repositoryAlreadyExists) {
+        throw new Error('This repository is already in your watchlist');
+      }
 
-      setRepositories([...repositories, data]);
+      const response = await api.get(`/repos/${newRepo}`);
+
+      if (response && response.data) {
+        const data = {
+          name: response.data.full_name,
+        };
+
+        setRepositories([...repositories, data]);
+      }
+
+      setError(false);
+    } catch (e) {
+      const finalError = e.response ? e.response.data.message : e;
+
+      toast.error(String(finalError));
+      setError(true);
     }
 
     setNewRepo('');
@@ -54,7 +71,7 @@ export default function Main() {
       </CardHeader>
 
       <Container>
-        <Form onSubmit={event => handleSubmit(event)}>
+        <Form onSubmit={event => handleSubmit(event)} error={error}>
           <input
             type="text"
             placeholder="Add a repo (e.g. rocketseat/unform)"
